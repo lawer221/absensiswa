@@ -1,0 +1,3047 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sistem Absensi Sekolah</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#172033;
+}
+
+/* LOGIN */
+.login-page{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+    linear-gradient(rgba(5,15,35,.88),rgba(5,15,35,.94)),
+    url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80")
+    center/cover;
+}
+
+.login-box{
+    width:100%;
+    max-width:430px;
+    padding:35px 30px;
+    border-radius:25px;
+    background:rgba(255,255,255,.10);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.2);
+    color:white;
+    box-shadow:0 25px 60px rgba(0,0,0,.4);
+}
+
+.logo{
+    width:70px;
+    height:70px;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:20px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    font-size:30px;
+}
+
+.login-box h2{
+    text-align:center;
+    margin-top:15px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#cbd5e1;
+    font-size:12px;
+    margin:5px 0 25px;
+}
+
+.role-buttons{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.role-buttons button{
+    flex:1;
+    border:1px solid rgba(255,255,255,.2);
+    padding:10px;
+    border-radius:10px;
+    background:rgba(255,255,255,.08);
+    color:white;
+    cursor:pointer;
+}
+
+.role-buttons button.active{
+    background:#2563eb;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    display:block;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    border:0;
+    outline:none;
+    padding:13px;
+    border-radius:11px;
+    background:white;
+    color:#172033;
+}
+
+.main-btn{
+    width:100%;
+    border:0;
+    padding:13px;
+    border-radius:11px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.switch{
+    text-align:center;
+    margin-top:17px;
+    font-size:12px;
+    color:#cbd5e1;
+}
+
+.switch span{
+    color:#60a5fa;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.error{
+    display:none;
+    text-align:center;
+    color:#ff9d9d;
+    font-size:12px;
+    margin-top:12px;
+}
+
+/* APP */
+.app{
+    display:none;
+    min-height:100vh;
+}
+
+.sidebar{
+    position:fixed;
+    width:250px;
+    height:100vh;
+    left:0;
+    top:0;
+    background:#0b1220;
+    color:white;
+    padding:25px 15px;
+    z-index:100;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 10px 25px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.brand-icon{
+    width:43px;
+    height:43px;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+}
+
+.brand h3{
+    font-size:14px;
+}
+
+.brand small{
+    color:#8490a3;
+    font-size:9px;
+}
+
+.menu{
+    margin-top:25px;
+}
+
+.menu-title{
+    color:#66738a;
+    font-size:10px;
+    margin:20px 10px 8px;
+}
+
+.menu button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#aeb8c8;
+    text-align:left;
+    padding:13px;
+    border-radius:10px;
+    cursor:pointer;
+    margin:3px 0;
+    font-size:12px;
+}
+
+.menu button:hover,
+.menu button.active{
+    background:#18243a;
+    color:white;
+}
+
+.logout{
+    position:absolute;
+    bottom:20px;
+    left:15px;
+    right:15px;
+}
+
+.logout button{
+    width:100%;
+    border:0;
+    background:#18243a;
+    color:white;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.main{
+    margin-left:250px;
+}
+
+.topbar{
+    height:75px;
+    background:white;
+    border-bottom:1px solid #e7ebf2;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.topbar h2{
+    font-size:19px;
+}
+
+.profile-mini{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar,
+.avatar-photo{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+}
+
+.avatar{
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.avatar-photo{
+    object-fit:cover;
+    display:none;
+}
+
+.profile-mini small{
+    color:#8490a3;
+    font-size:10px;
+}
+
+.content{
+    padding:30px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* WELCOME */
+.welcome{
+    background:linear-gradient(135deg,#172554,#2563eb);
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    margin-bottom:25px;
+}
+
+.welcome h2{
+    font-size:21px;
+}
+
+.welcome p{
+    color:#dce7ff;
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(15,23,42,.06);
+}
+
+.stat-icon{
+    width:43px;
+    height:43px;
+    border-radius:12px;
+    background:#edf4ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.stat h3{
+    font-size:25px;
+    margin-top:10px;
+}
+
+.stat p{
+    font-size:11px;
+    color:#7b8494;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 8px 25px rgba(15,23,42,.05);
+    margin-bottom:20px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.card h3{
+    font-size:16px;
+}
+
+.search{
+    padding:10px 12px;
+    border:1px solid #e1e6ee;
+    border-radius:10px;
+    outline:none;
+}
+
+/* TABLE */
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th{
+    background:#f8fafc;
+    color:#64748b;
+    font-size:10px;
+    padding:13px;
+    text-align:left;
+}
+
+td{
+    padding:13px;
+    border-bottom:1px solid #edf0f5;
+    font-size:11px;
+}
+
+.badge{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:600;
+}
+
+.hadir{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.izin{
+    background:#fef3c7;
+    color:#b45309;
+}
+
+.sakit{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.alpa{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.action-btn{
+    border:0;
+    padding:7px 10px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:10px;
+}
+
+.delete{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+/* PROFILE */
+.profile-card{
+    display:flex;
+    gap:25px;
+    align-items:center;
+}
+
+.photo-profile{
+    position:relative;
+    width:120px;
+    height:120px;
+    flex-shrink:0;
+}
+
+#profilePhoto,
+.photo-placeholder{
+    width:120px;
+    height:120px;
+    border-radius:30px;
+}
+
+#profilePhoto{
+    display:none;
+    object-fit:cover;
+    border:4px solid white;
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
+}
+
+.photo-placeholder{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    color:white;
+    font-size:40px;
+    font-weight:700;
+}
+
+.change-photo{
+    position:absolute;
+    bottom:-12px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#2563eb;
+    color:white;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:10px;
+    white-space:nowrap;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+#photoInput{
+    display:none;
+}
+
+.profile-info h2{
+    font-size:20px;
+}
+
+.profile-info p{
+    font-size:12px;
+    color:#7b8494;
+    margin-top:5px;
+}
+
+/* ABSEN */
+.attendance{
+    text-align:center;
+    padding:25px;
+}
+
+.clock{
+    font-size:40px;
+    color:#2563eb;
+    font-weight:700;
+}
+
+.date{
+    color:#7b8494;
+    font-size:12px;
+    margin-bottom:25px;
+}
+
+.absen-btn{
+    border:0;
+    padding:15px 28px;
+    border-radius:13px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.status-box{
+    margin-top:20px;
+    padding:14px;
+    background:#f1f5f9;
+    border-radius:12px;
+    font-size:12px;
+}
+
+/* BUTTON */
+.btn{
+    border:0;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:11px;
+    font-weight:600;
+}
+
+.blue{
+    background:#2563eb;
+    color:white;
+}
+
+.admin-filter{
+    display:flex;
+    gap:10px;
+}
+
+/* MOBILE */
+.mobile-btn{
+    display:none;
+    border:0;
+    padding:9px;
+    border-radius:8px;
+    background:#edf4ff;
+}
+
+@media(max-width:900px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.show{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-btn{
+        display:block;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .content{
+        padding:20px;
+    }
+}
+
+@media(max-width:550px){
+
+    .stats{
+        gap:10px;
+    }
+
+    .stat{
+        padding:15px;
+    }
+
+    .stat h3{
+        font-size:20px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .profile-mini div:last-child{
+        display:none;
+    }
+
+    .profile-card{
+        align-items:flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+LOGIN
+===================================================== -->
+
+<div class="login-page" id="loginPage">
+
+<div class="login-box">
+
+<div class="logo">🎓</div>
+
+<h2 id="loginTitle">Login Siswa</h2>
+
+<div class="subtitle">
+Sistem Absensi Sekolah
+</div>
+
+<div class="role-buttons">
+
+<button id="siswaRole"
+class="active"
+onclick="setRole('siswa')">
+🎓 Siswa
+</button>
+
+<button id="adminRole"
+onclick="setRole('admin')">
+🛡️ Admin
+</button>
+
+</div>
+
+
+<!-- LOGIN SISWA -->
+
+<div id="loginSiswa">
+
+<div class="input-group">
+<label>NIS</label>
+<input id="loginNis"
+type="text"
+placeholder="Masukkan NIS">
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input id="loginPassword"
+type="password"
+placeholder="Masukkan password">
+</div>
+
+<button class="main-btn"
+onclick="loginSiswa()">
+Login Siswa
+</button>
+
+<div class="switch">
+Belum punya akun?
+<span onclick="showRegister()">
+Buat Akun Baru
+</span>
+</div>
+
+</div>
+
+
+<!-- LOGIN ADMIN -->
+
+<div id="loginAdmin"
+style="display:none">
+
+<div class="input-group">
+<label>Username Admin</label>
+<input id="adminUsername"
+type="text"
+placeholder="Username">
+</div>
+
+<div class="input-group">
+<label>Password Admin</label>
+<input id="adminPassword"
+type="password"
+placeholder="Password">
+</div>
+
+<button class="main-btn"
+onclick="loginAdmin()">
+Login Admin
+</button>
+
+</div>
+
+
+<!-- REGISTER -->
+
+<div id="registerForm"
+style="display:none">
+
+<div class="input-group">
+<label>NIS</label>
+<input id="regNis"
+type="text"
+placeholder="NIS">
+</div>
+
+<div class="input-group">
+<label>Nama Lengkap</label>
+<input id="regNama"
+type="text"
+placeholder="Nama lengkap">
+</div>
+
+<div class="input-group">
+
+<label>Kelas</label>
+
+<select id="regKelas">
+
+<option value="">Pilih Kelas</option>
+<option>X RPL 1</option>
+<option>X RPL 2</option>
+<option>XI RPL 1</option>
+<option>XI RPL 2</option>
+<option>XII RPL 1</option>
+<option>XII RPL 2</option>
+<option>X TKJ 1</option>
+<option>XI TKJ 1</option>
+<option>XII TKJ 1</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>Jenis Kelamin</label>
+
+<select id="regJK">
+
+<option value="">Pilih</option>
+<option>Laki-laki</option>
+<option>Perempuan</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>Password</label>
+
+<input id="regPassword"
+type="password"
+placeholder="Minimal 6 karakter">
+
+</div>
+
+<button class="main-btn"
+onclick="registerSiswa()">
+Daftar Akun
+</button>
+
+<div class="switch">
+
+Sudah punya akun?
+<span onclick="showLogin()">
+Login
+</span>
+
+</div>
+
+</div>
+
+<div class="error" id="error"></div>
+
+</div>
+</div>
+
+
+<!-- =====================================================
+SISWA
+===================================================== -->
+
+<div class="app" id="siswaApp">
+
+<aside class="sidebar" id="siswaSidebar">
+
+<div class="brand">
+
+<div class="brand-icon">
+🎓
+</div>
+
+<div>
+<h3>PORTAL SISWA</h3>
+<small>Sistem Absensi</small>
+</div>
+
+</div>
+
+<div class="menu">
+
+<div class="menu-title">
+Menu Siswa
+</div>
+
+<button class="active"
+onclick="showSiswaPage('sDashboard',this)">
+📊 Dashboard
+</button>
+
+<button onclick="showSiswaPage('sProfil',this)">
+👤 Profil Saya
+</button>
+
+<button onclick="showSiswaPage('sAbsensi',this)">
+📝 Absensi
+</button>
+
+<button onclick="showSiswaPage('sRiwayat',this)">
+📅 Riwayat
+</button>
+
+</div>
+
+<div class="logout">
+
+<button onclick="logout()">
+🚪 Keluar
+</button>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;gap:12px;align-items:center">
+
+<button class="mobile-btn"
+onclick="toggleSidebar('siswaSidebar')">
+☰
+</button>
+
+<h2 id="siswaTitle">
+Dashboard
+</h2>
+
+</div>
+
+<div class="profile-mini">
+
+<div class="avatar" id="sAvatar">
+S
+</div>
+
+<img id="sAvatarPhoto"
+class="avatar-photo"
+src="">
+
+<div>
+
+<b id="sName">Siswa</b>
+<br>
+<small id="sNis">NIS</small>
+
+</div>
+
+</div>
+
+</header>
+
+
+<div class="content">
+
+<!-- DASHBOARD -->
+
+<section class="page active" id="sDashboard">
+
+<div class="welcome">
+
+<h2>
+Halo,
+<span id="welcomeName">Siswa</span> 👋
+</h2>
+
+<p>
+Jangan lupa melakukan absensi hari ini.
+</p>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-icon">✅</div>
+<h3 id="sHadir">0</h3>
+<p>Total Hadir</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">📋</div>
+<h3 id="sIzin">0</h3>
+<p>Izin / Sakit</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">❌</div>
+<h3 id="sAlpa">0</h3>
+<p>Total Alpa</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">📅</div>
+<h3 id="sTotal">0</h3>
+<p>Total Absensi</p>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Absensi Terakhir</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="sRecent"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PROFIL -->
+
+<section class="page" id="sProfil">
+
+<div class="card">
+
+<h3>Profil Saya</h3>
+
+<br>
+
+<div class="profile-card">
+
+<div class="photo-profile">
+
+<img id="profilePhoto"
+src=""
+alt="Foto Profil">
+
+<div class="photo-placeholder"
+id="photoPlaceholder">
+S
+</div>
+
+<label for="photoInput"
+class="change-photo">
+📷 Ganti Foto
+</label>
+
+<input type="file"
+id="photoInput"
+accept="image/*"
+onchange="gantiFoto(event)">
+
+</div>
+
+
+<div class="profile-info">
+
+<h2 id="pNama">-</h2>
+
+<p>
+NIS:
+<b id="pNis">-</b>
+</p>
+
+<p>
+Kelas:
+<b id="pKelas">-</b>
+</p>
+
+<p>
+Jenis Kelamin:
+<b id="pJK">-</b>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ABSENSI -->
+
+<section class="page" id="sAbsensi">
+
+<div class="card">
+
+<div class="attendance">
+
+<h3>Absensi Hari Ini</h3>
+
+<div class="clock" id="clock">
+00:00:00
+</div>
+
+<div class="date" id="date">
+-
+</div>
+
+<button class="absen-btn"
+onclick="absenSiswa()">
+📍 ABSEN SEKARANG
+</button>
+
+<div class="status-box"
+id="statusBox">
+Belum melakukan absensi hari ini.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RIWAYAT -->
+
+<section class="page" id="sRiwayat">
+
+<div class="card">
+
+<h3>Riwayat Absensi</h3>
+
+<br>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>No</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Status</th>
+<th>Lokasi</th>
+</tr>
+
+</thead>
+
+<tbody id="sHistory"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+</div>
+
+
+<!-- =====================================================
+ADMIN
+===================================================== -->
+
+<div class="app" id="adminApp">
+
+<aside class="sidebar" id="adminSidebar">
+
+<div class="brand">
+
+<div class="brand-icon">
+🛡️
+</div>
+
+<div>
+<h3>ADMIN PANEL</h3>
+<small>School Management</small>
+</div>
+
+</div>
+
+
+<div class="menu">
+
+<div class="menu-title">
+Menu Admin
+</div>
+
+<button class="active"
+onclick="showAdminPage('aDashboard',this)">
+📊 Dashboard
+</button>
+
+<button onclick="showAdminPage('aSiswa',this)">
+👨‍🎓 Data Siswa
+</button>
+
+<button onclick="showAdminPage('aAbsensi',this)">
+📝 Data Absensi
+</button>
+
+<button onclick="showAdminPage('aRiwayat',this)">
+📅 Riwayat
+</button>
+
+</div>
+
+
+<div class="logout">
+
+<button onclick="logout()">
+🚪 Keluar
+</button>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div style="display:flex;gap:12px;align-items:center">
+
+<button class="mobile-btn"
+onclick="toggleSidebar('adminSidebar')">
+☰
+</button>
+
+<h2 id="adminTitle">
+Dashboard
+</h2>
+
+</div>
+
+
+<div class="profile-mini">
+
+<div class="avatar">
+A
+</div>
+
+<div>
+<b>Administrator</b>
+<br>
+<small>Admin</small>
+</div>
+
+</div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- ADMIN DASHBOARD -->
+
+<section class="page active"
+id="aDashboard">
+
+<div class="welcome">
+
+<h2>
+Dashboard Administrator 👋
+</h2>
+
+<p>
+Pantau aktivitas absensi siswa.
+</p>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-icon">
+👨‍🎓
+</div>
+
+<h3 id="aTotalSiswa">
+0
+</h3>
+
+<p>Total Siswa</p>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">
+✅
+</div>
+
+<h3 id="aHadir">
+0
+</h3>
+
+<p>Hadir Hari Ini</p>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">
+📋
+</div>
+
+<h3 id="aIzin">
+0
+</h3>
+
+<p>Izin / Sakit</p>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">
+❌
+</div>
+
+<h3 id="aAlpa">
+0
+</h3>
+
+<p>Alpa</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<h3>
+Absensi Siswa Terbaru
+</h3>
+
+<button class="btn blue"
+onclick="showAdminPage('aAbsensi')">
+Lihat Semua
+</button>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Nama</th>
+<th>Kelas</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="aRecent"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DATA SISWA -->
+
+<section class="page"
+id="aSiswa">
+
+<div class="card">
+
+<div class="card-header">
+
+<h3>
+Data Siswa Terdaftar
+</h3>
+
+<input
+class="search"
+id="searchSiswa"
+placeholder="Cari siswa..."
+onkeyup="renderAdminSiswa()">
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>No</th>
+<th>NIS</th>
+<th>Nama</th>
+<th>Kelas</th>
+<th>JK</th>
+<th>Foto</th>
+<th>Aksi</th>
+</tr>
+
+</thead>
+
+<tbody id="adminSiswaTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DATA ABSENSI -->
+
+<section class="page"
+id="aAbsensi">
+
+<div class="card">
+
+<div class="card-header">
+
+<h3>
+Data Absensi Siswa
+</h3>
+
+<div class="admin-filter">
+
+<input
+class="search"
+type="date"
+id="filterAdminDate"
+onchange="renderAdminAbsensi()">
+
+<button class="btn blue"
+onclick="exportCSV()">
+📥 Export
+</button>
+
+</div>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>No</th>
+<th>NIS</th>
+<th>Nama</th>
+<th>Kelas</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Status</th>
+<th>Lokasi</th>
+<th>Aksi</th>
+</tr>
+
+</thead>
+
+<tbody id="adminAbsensiTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RIWAYAT -->
+
+<section class="page"
+id="aRiwayat">
+
+<div class="card">
+
+<div class="card-header">
+
+<h3>
+Riwayat Semua Absensi
+</h3>
+
+<input
+class="search"
+id="searchHistory"
+placeholder="Cari nama / NIS..."
+onkeyup="renderAdminHistory()">
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>No</th>
+<th>NIS</th>
+<th>Nama</th>
+<th>Kelas</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="adminHistoryTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+DATA
+===================================================== */
+
+let akunSiswa =
+JSON.parse(localStorage.getItem("akunSiswa")) || [
+
+{
+nis:"2026001",
+nama:"Andi Pratama",
+kelas:"XI RPL 1",
+jk:"Laki-laki",
+password:"123456",
+foto:""
+}
+
+];
+
+
+let dataAbsensi =
+JSON.parse(
+localStorage.getItem("dataAbsensiSiswa")
+) || [];
+
+
+let siswaLogin=null;
+
+
+/* =====================================================
+ROLE
+===================================================== */
+
+function setRole(role){
+
+document.getElementById("siswaRole")
+.classList.remove("active");
+
+document.getElementById("adminRole")
+.classList.remove("active");
+
+
+if(role==="siswa"){
+
+document.getElementById("siswaRole")
+.classList.add("active");
+
+document.getElementById("loginSiswa")
+.style.display="block";
+
+document.getElementById("loginAdmin")
+.style.display="none";
+
+document.getElementById("registerForm")
+.style.display="none";
+
+document.getElementById("loginTitle")
+.textContent="Login Siswa";
+
+}else{
+
+document.getElementById("adminRole")
+.classList.add("active");
+
+document.getElementById("loginSiswa")
+.style.display="none";
+
+document.getElementById("loginAdmin")
+.style.display="block";
+
+document.getElementById("registerForm")
+.style.display="none";
+
+document.getElementById("loginTitle")
+.textContent="Login Admin";
+
+}
+
+clearError();
+
+}
+
+
+/* =====================================================
+REGISTER
+===================================================== */
+
+function showRegister(){
+
+document.getElementById("loginSiswa")
+.style.display="none";
+
+document.getElementById("loginAdmin")
+.style.display="none";
+
+document.getElementById("registerForm")
+.style.display="block";
+
+document.getElementById("loginTitle")
+.textContent="Daftar Akun Siswa";
+
+clearError();
+
+}
+
+
+function showLogin(){
+
+document.getElementById("registerForm")
+.style.display="none";
+
+document.getElementById("loginSiswa")
+.style.display="block";
+
+document.getElementById("loginAdmin")
+.style.display="none";
+
+document.getElementById("loginTitle")
+.textContent="Login Siswa";
+
+}
+
+
+function registerSiswa(){
+
+const nis=
+document.getElementById("regNis")
+.value.trim();
+
+const nama=
+document.getElementById("regNama")
+.value.trim();
+
+const kelas=
+document.getElementById("regKelas")
+.value;
+
+const jk=
+document.getElementById("regJK")
+.value;
+
+const password=
+document.getElementById("regPassword")
+.value;
+
+
+if(!nis||!nama||!kelas||!jk||!password){
+
+showError("Lengkapi semua data!");
+
+return;
+
+}
+
+
+if(password.length<6){
+
+showError("Password minimal 6 karakter!");
+
+return;
+
+}
+
+
+if(akunSiswa.some(s=>s.nis===nis)){
+
+showError("NIS sudah terdaftar!");
+
+return;
+
+}
+
+
+akunSiswa.push({
+
+nis,
+nama,
+kelas,
+jk,
+password,
+foto:""
+
+});
+
+
+localStorage.setItem(
+"akunSiswa",
+JSON.stringify(akunSiswa)
+);
+
+
+alert("✅ Akun siswa berhasil dibuat!");
+
+document.getElementById("loginNis")
+.value=nis;
+
+showLogin();
+
+}
+
+
+/* =====================================================
+LOGIN SISWA
+===================================================== */
+
+function loginSiswa(){
+
+const nis=
+document.getElementById("loginNis")
+.value.trim();
+
+const password=
+document.getElementById("loginPassword")
+.value;
+
+
+akunSiswa=
+JSON.parse(
+localStorage.getItem("akunSiswa")
+)||[];
+
+
+const akun=
+akunSiswa.find(
+s=>s.nis===nis&&s.password===password
+);
+
+
+if(!akun){
+
+showError("NIS atau password salah!");
+
+return;
+
+}
+
+
+siswaLogin=akun;
+
+localStorage.setItem(
+"siswaLogin",
+JSON.stringify(akun)
+);
+
+
+document.getElementById("loginPage")
+.style.display="none";
+
+document.getElementById("siswaApp")
+.style.display="block";
+
+document.getElementById("adminApp")
+.style.display="none";
+
+
+updateSiswaProfile();
+
+updateSiswaDashboard();
+
+updateStatusAbsensi();
+
+}
+
+
+/* =====================================================
+LOGIN ADMIN
+===================================================== */
+
+function loginAdmin(){
+
+const username=
+document.getElementById("adminUsername")
+.value;
+
+const password=
+document.getElementById("adminPassword")
+.value;
+
+
+if(username!=="admin"||password!=="admin123"){
+
+showError(
+"Username atau password Admin salah!"
+);
+
+return;
+
+}
+
+
+localStorage.setItem(
+"adminLogin",
+"true"
+);
+
+
+document.getElementById("loginPage")
+.style.display="none";
+
+document.getElementById("adminApp")
+.style.display="block";
+
+document.getElementById("siswaApp")
+.style.display="none";
+
+
+refreshAdmin();
+
+}
+
+
+/* =====================================================
+PROFILE
+===================================================== */
+
+function updateSiswaProfile(){
+
+if(!siswaLogin)return;
+
+
+const initial=
+siswaLogin.nama
+.charAt(0)
+.toUpperCase();
+
+
+document.getElementById("sAvatar")
+.textContent=initial;
+
+document.getElementById("photoPlaceholder")
+.textContent=initial;
+
+document.getElementById("welcomeName")
+.textContent=siswaLogin.nama;
+
+document.getElementById("sName")
+.textContent=siswaLogin.nama;
+
+document.getElementById("sNis")
+.textContent=siswaLogin.nis;
+
+document.getElementById("pNama")
+.textContent=siswaLogin.nama;
+
+document.getElementById("pNis")
+.textContent=siswaLogin.nis;
+
+document.getElementById("pKelas")
+.textContent=siswaLogin.kelas;
+
+document.getElementById("pJK")
+.textContent=siswaLogin.jk;
+
+
+tampilkanFotoProfil(
+siswaLogin.foto||""
+);
+
+}
+
+
+/* =====================================================
+GANTI FOTO PROFIL
+===================================================== */
+
+function gantiFoto(event){
+
+const file=event.target.files[0];
+
+if(!file)return;
+
+
+if(!file.type.startsWith("image/")){
+
+alert("File harus berupa gambar!");
+
+return;
+
+}
+
+
+if(file.size>3*1024*1024){
+
+alert(
+"Ukuran foto maksimal 3 MB!"
+);
+
+return;
+
+}
+
+
+const reader=new FileReader();
+
+
+reader.onload=function(e){
+
+const foto=e.target.result;
+
+
+akunSiswa=
+JSON.parse(
+localStorage.getItem("akunSiswa")
+)||[];
+
+
+const index=
+akunSiswa.findIndex(
+s=>s.nis===siswaLogin.nis
+);
+
+
+if(index!==-1){
+
+akunSiswa[index].foto=foto;
+
+localStorage.setItem(
+"akunSiswa",
+JSON.stringify(akunSiswa)
+);
+
+siswaLogin=akunSiswa[index];
+
+localStorage.setItem(
+"siswaLogin",
+JSON.stringify(siswaLogin)
+);
+
+}
+
+
+tampilkanFotoProfil(foto);
+
+alert(
+"✅ Foto profil berhasil diganti!"
+);
+
+};
+
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* =====================================================
+TAMPIL FOTO
+===================================================== */
+
+function tampilkanFotoProfil(foto){
+
+const img=
+document.getElementById("profilePhoto");
+
+const placeholder=
+document.getElementById("photoPlaceholder");
+
+const mini=
+document.getElementById("sAvatarPhoto");
+
+const avatar=
+document.getElementById("sAvatar");
+
+
+if(foto){
+
+img.src=foto;
+img.style.display="block";
+
+placeholder.style.display="none";
+
+mini.src=foto;
+mini.style.display="block";
+
+avatar.style.display="none";
+
+}else{
+
+img.style.display="none";
+
+placeholder.style.display="flex";
+
+mini.style.display="none";
+
+avatar.style.display="flex";
+
+}
+
+}
+
+
+/* =====================================================
+ABSEN SISWA
+===================================================== */
+
+function absenSiswa(){
+
+dataAbsensi=
+JSON.parse(
+localStorage.getItem("dataAbsensiSiswa")
+)||[];
+
+
+const today=
+new Date()
+.toISOString()
+.split("T")[0];
+
+
+const sudah=
+dataAbsensi.find(
+a=>
+a.nis===siswaLogin.nis&&
+a.tanggal===today
+);
+
+
+if(sudah){
+
+alert(
+"Kamu sudah melakukan absensi hari ini!"
+);
+
+return;
+
+}
+
+
+const now=new Date();
+
+
+const jam=
+now.toLocaleTimeString(
+"id-ID",
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit"
+}
+);
+
+
+dataAbsensi.push({
+
+nis:siswaLogin.nis,
+
+nama:siswaLogin.nama,
+
+kelas:siswaLogin.kelas,
+
+tanggal:today,
+
+jam:jam,
+
+status:"Hadir",
+
+lokasi:"Absensi Siswa"
+
+});
+
+
+localStorage.setItem(
+"dataAbsensiSiswa",
+JSON.stringify(dataAbsensi)
+);
+
+
+updateStatusAbsensi();
+
+updateSiswaDashboard();
+
+
+alert(
+"✅ Absensi berhasil dicatat!"
+);
+
+}
+
+
+/* =====================================================
+STATUS ABSENSI
+===================================================== */
+
+function updateStatusAbsensi(){
+
+if(!siswaLogin)return;
+
+
+dataAbsensi=
+JSON.parse(
+localStorage.getItem("dataAbsensiSiswa")
+)||[];
+
+
+const today=
+new Date()
+.toISOString()
+.split("T")[0];
+
+
+const data=
+dataAbsensi.find(
+a=>
+a.nis===siswaLogin.nis&&
+a.tanggal===today
+);
+
+
+const box=
+document.getElementById("statusBox");
+
+
+if(data){
+
+box.innerHTML=
+"✅ Sudah absen hari ini pada <b>"+
+data.jam+
+"</b> dengan status <b>"+
+data.status+
+"</b>";
+
+}else{
+
+box.innerHTML=
+"Belum melakukan absensi hari ini.";
+
+}
+
+}
+
+
+/* =====================================================
+DASHBOARD SISWA
+===================================================== */
+
+function updateSiswaDashboard(){
+
+if(!siswaLogin)return;
+
+
+dataAbsensi=
+JSON.parse(
+localStorage.getItem("dataAbsensiSiswa")
+)||[];
+
+
+const mine=
+dataAbsensi.filter(
+a=>a.nis===siswaLogin.nis
+);
+
+
+const hadir=
+mine.filter(
+a=>a.status==="Hadir"
+).length;
+
+
+const izin=
+mine.filter(
+a=>a.status==="Izin"||
+a.status==="Sakit"
+).length;
+
+
+const alpa=
+mine.filter(
+a=>a.status==="Alpa"
+).length;
+
+
+document.getElementById("sHadir")
+.textContent=hadir;
+
+document.getElementById("sIzin")
+.textContent=izin;
+
+document.getElementById("sAlpa")
+.textContent=alpa;
+
+document.getElementById("sTotal")
+.textContent=mine.length;
+
+
+const recent=
+document.getElementById("sRecent");
+
+recent.innerHTML="";
+
+
+mine.slice()
+.reverse()
+.slice(0,5)
+.forEach(a=>{
+
+recent.innerHTML+=`
+
+<tr>
+
+<td>${a.tanggal}</td>
+
+<td>${a.jam}</td>
+
+<td>
+<span class="badge ${a.status.toLowerCase()}">
+${a.status}
+</span>
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+renderSiswaHistory();
+
+}
+
+
+/* =====================================================
+RIWAYAT SISWA
+===================================================== */
+
+function renderSiswaHistory(){
+
+const tbody=
+document.getElementById("sHistory");
+
+tbody.innerHTML="";
+
+
+const mine=
+dataAbsensi.filter(
+a=>a.nis===siswaLogin.nis
+);
+
+
+mine.slice()
+.reverse()
+.forEach((a,index)=>{
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${a.tanggal}</td>
+
+<td>${a.jam}</td>
+
+<td>
+<span class="badge ${a.status.toLowerCase()}">
+${a.status}
+</span>
+</td>
+
+<td>${a.lokasi||"-"}</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =====================================================
+SISWA PAGE
+===================================================== */
+
+function showSiswaPage(page,button){
+
+document.querySelectorAll(
+"#siswaApp .page"
+).forEach(
+p=>p.classList.remove("active")
+);
+
+
+document.getElementById(page)
+.classList.add("active");
+
+
+document.querySelectorAll(
+"#siswaSidebar .menu button"
+).forEach(
+b=>b.classList.remove("active")
+);
+
+
+if(button)
+button.classList.add("active");
+
+
+const titles={
+
+sDashboard:"Dashboard",
+sProfil:"Profil Saya",
+sAbsensi:"Absensi",
+sRiwayat:"Riwayat Absensi"
+
+};
+
+
+document.getElementById("siswaTitle")
+.textContent=titles[page];
+
+
+if(page==="sDashboard")
+updateSiswaDashboard();
+
+if(page==="sAbsensi")
+updateStatusAbsensi();
+
+if(page==="sProfil")
+updateSiswaProfile();
+
+
+document.getElementById(
+"siswaSidebar"
+).classList.remove("show");
+
+}
+
+
+/* =====================================================
+REFRESH ADMIN
+===================================================== */
+
+function refreshAdmin(){
+
+akunSiswa=
+JSON.parse(
+localStorage.getItem("akunSiswa")
+)||[];
+
+
+dataAbsensi=
+JSON.parse(
+localStorage.getItem("dataAbsensiSiswa")
+)||[];
+
+
+renderAdminDashboard();
+
+renderAdminSiswa();
+
+renderAdminAbsensi();
+
+renderAdminHistory();
+
+}
+
+
+/* =====================================================
+ADMIN DASHBOARD
+===================================================== */
+
+function renderAdminDashboard(){
+
+const today=
+new Date()
+.toISOString()
+.split("T")[0];
+
+
+const todayData=
+dataAbsensi.filter(
+a=>a.tanggal===today
+);
+
+
+const hadir=
+todayData.filter(
+a=>a.status==="Hadir"
+).length;
+
+
+const izin=
+todayData.filter(
+a=>a.status==="Izin"||
+a.status==="Sakit"
+).length;
+
+
+const alpa=
+todayData.filter(
+a=>a.status==="Alpa"
+).length;
+
+
+document.getElementById(
+"aTotalSiswa"
+).textContent=akunSiswa.length;
+
+
+document.getElementById(
+"aHadir"
+).textContent=hadir;
+
+
+document.getElementById(
+"aIzin"
+).textContent=izin;
+
+
+document.getElementById(
+"aAlpa"
+).textContent=alpa;
+
+
+const tbody=
+document.getElementById("aRecent");
+
+tbody.innerHTML="";
+
+
+dataAbsensi
+.slice()
+.reverse()
+.slice(0,8)
+.forEach(a=>{
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td><b>${a.nama}</b></td>
+
+<td>${a.kelas}</td>
+
+<td>${a.tanggal}</td>
+
+<td>${a.jam}</td>
+
+<td>
+<span class="badge ${a.status.toLowerCase()}">
+${a.status}
+</span>
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =====================================================
+ADMIN DATA SISWA
+===================================================== */
+
+function renderAdminSiswa(){
+
+const input=
+document.getElementById("searchSiswa");
+
+const search=
+input?
+input.value.toLowerCase():"";
+
+
+const tbody=
+document.getElementById(
+"adminSiswaTable"
+);
+
+tbody.innerHTML="";
+
+
+akunSiswa
+.filter(
+s=>
+s.nama.toLowerCase().includes(search)||
+s.nis.toLowerCase().includes(search)
+)
+.forEach((s,index)=>{
+
+let fotoHTML=
+s.foto
+?
+`<img src="${s.foto}"
+style="width:38px;height:38px;border-radius:10px;object-fit:cover">`
+:
+`<div class="avatar"
+style="width:38px;height:38px">
+${s.nama.charAt(0)}
+</div>`;
+
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${s.nis}</td>
+
+<td><b>${s.nama}</b></td>
+
+<td>${s.kelas}</td>
+
+<td>${s.jk}</td>
+
+<td>${fotoHTML}</td>
+
+<td>
+
+<button
+class="action-btn delete"
+onclick="hapusSiswa('${s.nis}')">
+
+Hapus
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =====================================================
+HAPUS SISWA
+===================================================== */
+
+function hapusSiswa(nis){
+
+if(!confirm(
+"Yakin ingin menghapus akun siswa ini?"
+))
+return;
+
+
+akunSiswa=
+akunSiswa.filter(
+s=>s.nis!==nis
+);
+
+
+localStorage.setItem(
+"akunSiswa",
+JSON.stringify(akunSiswa)
+);
+
+
+refreshAdmin();
+
+}
+
+
+/* =====================================================
+ADMIN ABSENSI
+===================================================== */
+
+function renderAdminAbsensi(){
+
+dataAbsensi=
+JSON.parse(
+localStorage.getItem("dataAbsensiSiswa")
+)||[];
+
+
+const filter=
+document.getElementById(
+"filterAdminDate"
+).value;
+
+
+let data=dataAbsensi;
+
+
+if(filter){
+
+data=
+dataAbsensi.filter(
+a=>a.tanggal===filter
+);
+
+}
+
+
+const tbody=
+document.getElementById(
+"adminAbsensiTable"
+);
+
+tbody.innerHTML="";
+
+
+data.slice()
+.reverse()
+.forEach((a,index)=>{
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${a.nis}</td>
+
+<td><b>${a.nama}</b></td>
+
+<td>${a.kelas}</td>
+
+<td>${a.tanggal}</td>
+
+<td>${a.jam}</td>
+
+<td>
+
+<span class="badge ${a.status.toLowerCase()}">
+${a.status}
+</span>
+
+</td>
+
+<td>${a.lokasi||"-"}</td>
+
+<td>
+
+<button
+class="action-btn delete"
+onclick="hapusAbsensi('${a.nis}','${a.tanggal}')">
+
+Hapus
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =====================================================
+HAPUS ABSENSI
+===================================================== */
+
+function hapusAbsensi(nis,tanggal){
+
+if(!confirm(
+"Hapus data absensi ini?"
+))
+return;
+
+
+dataAbsensi=
+dataAbsensi.filter(
+a=>
+!(a.nis===nis&&
+a.tanggal===tanggal)
+);
+
+
+localStorage.setItem(
+"dataAbsensiSiswa",
+JSON.stringify(dataAbsensi)
+);
+
+
+refreshAdmin();
+
+}
+
+
+/* =====================================================
+ADMIN HISTORY
+===================================================== */
+
+function renderAdminHistory(){
+
+const input=
+document.getElementById(
+"searchHistory"
+);
+
+const search=
+input?
+input.value.toLowerCase():"";
+
+
+const tbody=
+document.getElementById(
+"adminHistoryTable"
+);
+
+tbody.innerHTML="";
+
+
+dataAbsensi
+.filter(
+a=>
+a.nama.toLowerCase().includes(search)||
+a.nis.toLowerCase().includes(search)
+)
+.slice()
+.reverse()
+.forEach((a,index)=>{
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${a.nis}</td>
+
+<td><b>${a.nama}</b></td>
+
+<td>${a.kelas}</td>
+
+<td>${a.tanggal}</td>
+
+<td>${a.jam}</td>
+
+<td>
+
+<span class="badge ${a.status.toLowerCase()}">
+${a.status}
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* =====================================================
+ADMIN PAGE
+===================================================== */
+
+function showAdminPage(page,button){
+
+document.querySelectorAll(
+"#adminApp .page"
+).forEach(
+p=>p.classList.remove("active")
+);
+
+
+document.getElementById(page)
+.classList.add("active");
+
+
+document.querySelectorAll(
+"#adminSidebar .menu button"
+).forEach(
+b=>b.classList.remove("active")
+);
+
+
+if(button)
+button.classList.add("active");
+
+
+const titles={
+
+aDashboard:"Dashboard",
+aSiswa:"Data Siswa",
+aAbsensi:"Data Absensi",
+aRiwayat:"Riwayat Absensi"
+
+};
+
+
+document.getElementById(
+"adminTitle"
+).textContent=titles[page];
+
+
+refreshAdmin();
+
+
+document.getElementById(
+"adminSidebar"
+).classList.remove("show");
+
+}
+
+
+/* =====================================================
+EXPORT CSV
+===================================================== */
+
+function exportCSV(){
+
+if(dataAbsensi.length===0){
+
+alert(
+"Belum ada data absensi!"
+);
+
+return;
+
+}
+
+
+let csv=
+"NIS,Nama,Kelas,Tanggal,Jam,Status,Lokasi\n";
+
+
+dataAbsensi.forEach(a=>{
+
+csv+=
+`"${a.nis}","${a.nama}","${a.kelas}","${a.tanggal}","${a.jam}","${a.status}","${a.lokasi||"-"}"\n`;
+
+});
+
+
+const blob=
+new Blob(
+[csv],
+{type:"text/csv"}
+);
+
+
+const url=
+URL.createObjectURL(blob);
+
+
+const link=
+document.createElement("a");
+
+
+link.href=url;
+
+link.download=
+"data_absensi_siswa.csv";
+
+link.click();
+
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =====================================================
+CLOCK
+===================================================== */
+
+function updateClock(){
+
+const now=new Date();
+
+
+document.getElementById(
+"clock"
+).textContent=
+now.toLocaleTimeString(
+"id-ID"
+);
+
+
+document.getElementById(
+"date"
+).textContent=
+now.toLocaleDateString(
+"id-ID",
+{
+weekday:"long",
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+);
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+
+/* =====================================================
+SIDEBAR
+===================================================== */
+
+function toggleSidebar(id){
+
+document.getElementById(id)
+.classList.toggle("show");
+
+}
+
+
+/* =====================================================
+ERROR
+===================================================== */
+
+function showError(text){
+
+const error=
+document.getElementById("error");
+
+error.textContent=text;
+
+error.style.display="block";
+
+}
+
+
+function clearError(){
+
+document.getElementById("error")
+.style.display="none";
+
+}
+
+
+/* =====================================================
+LOGOUT
+===================================================== */
+
+function logout(){
+
+localStorage.removeItem("siswaLogin");
+localStorage.removeItem("adminLogin");
+
+siswaLogin=null;
+
+location.reload();
+
+}
+
+
+/* =====================================================
+AUTO REFRESH ADMIN
+===================================================== */
+
+setInterval(function(){
+
+const admin=
+document.getElementById(
+"adminApp"
+);
+
+if(admin.style.display==="block"){
+
+refreshAdmin();
+
+}
+
+},2000);
+
+
+/* =====================================================
+AUTO LOGIN SISWA
+===================================================== */
+
+const savedSiswa=
+localStorage.getItem("siswaLogin");
+
+
+if(savedSiswa){
+
+siswaLogin=
+JSON.parse(savedSiswa);
+
+document.getElementById(
+"loginPage"
+).style.display="none";
+
+document.getElementById(
+"siswaApp"
+).style.display="block";
+
+updateSiswaProfile();
+
+updateSiswaDashboard();
+
+}
+
+
+/* =====================================================
+AUTO LOGIN ADMIN
+===================================================== */
+
+if(
+localStorage.getItem("adminLogin")
+==="true"
+){
+
+document.getElementById(
+"loginPage"
+).style.display="none";
+
+document.getElementById(
+"adminApp"
+).style.display="block";
+
+refreshAdmin();
+
+}
+
+</script>
+
+</body>
+</html> f
